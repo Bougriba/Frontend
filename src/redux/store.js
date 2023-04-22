@@ -1,8 +1,8 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "@redux-devtools/extension";
-import { JobReducerVerified, jobReducerDelete, loadJobReducer, loadSingleJobReducer, loadallJobReducer } from "./reducers/jobReducer";
-import { allUserReducer, userReducerDelete, userReducerLogout, userReducerSignIn, userReducerSignUp } from "./reducers/UserReducer";
+import { JobReducerVerified, JobReducerupdate, jobReducerAdd, jobReducerDelete, loadJobReducer, loadSingleJobReducer, loadallJobReducer } from "./reducers/jobReducer";
+import { allUserReducer, loadSingleUserReducer, userChekcEmail, userReducerAdd, userReducerDelete, userReducerLogout, userReducerSignIn, userReducerSignUp, userReducerupdate } from "./reducers/UserReducer";
 import { RecruiterJob, RecruiterProfile } from "./reducers/recruiterReducer";
 
 //combine reducers
@@ -18,7 +18,13 @@ const reducer = combineReducers({
   signUp: userReducerSignUp,
   deleteuser: userReducerDelete ,
   jobverif: JobReducerVerified,
-  deletejob:jobReducerDelete,
+  deletejob: jobReducerDelete,
+  adduser: userReducerAdd,
+  updateuser: userReducerupdate,
+  emailcheck: userChekcEmail,
+  singleUser: loadSingleUserReducer,
+  addjob: jobReducerAdd,
+  updatejob:JobReducerupdate,
 });
 
 //initial state

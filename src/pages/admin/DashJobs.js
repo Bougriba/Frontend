@@ -108,7 +108,7 @@ const DashJobs = () => {
             All Jobs
         </Typography>
         <Box sx={{ pb: 2, display: "flex", justifyContent: "right" }}>
-                  <Button variant='contained' color="success" startIcon={<AddIcon />}>Create job</Button>
+       < Button  variant="contained" color="success" startIcon={<AddIcon />}  component={Link} to={`/job/add`}>Create job</Button>
                   
         </Box>
         <Paper sx={{ bgcolor: "secondary.midNightBlue" }} >

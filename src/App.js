@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider, makeStyles } from '@mui/material';
 import { theme } from './theme';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,7 +19,13 @@ import SingleJob from './pages/SingleJob';
 import DashUsers from './pages/admin/DashUsers';
 import DashJobs from './pages/admin/DashJobs'
 import Register from './pages/Register';
-
+import FormComponent from './component/FormComponent';
+import Update from './component/EditUserForm';
+import { createContext } from 'react';
+import { useState } from 'react';
+import CreateJobs from './component/CreateJobForm';
+import EditJob from './component/EditJobForm';
+import ResumeForm from './component/CreateCandidats';
 //HOC
 const UserDashboardHOC = Layout(UserDashboard);
 const UserJobsHistoryHOC=Layout(UserJobsHistory)
@@ -27,8 +33,11 @@ const UserInfoDashboardHOC = Layout(UserInfoDashboard)
 const AdminDadhboardHOC = Layout(AdminDadhboard)
 const DashUsersHOC = Layout(DashUsers)
 const DashJobsHOC = Layout(DashJobs)
-const App = () => {
 
+
+
+const App = () => {
+  
     return (
         <>
             <ToastContainer />
@@ -46,7 +55,12 @@ const App = () => {
                             <Route path='/job/:id' element={<SingleJob />} />
                             <Route path="/admin/dashboard" element={<AdminRoute><AdminDadhboardHOC /></AdminRoute>} />
                             <Route path="/admin/users" element={<AdminRoute><DashUsersHOC /></AdminRoute>} />
-                            <Route path="/admin/jobs" element={<AdminRoute><DashJobsHOC/></AdminRoute>} />
+                            <Route path="/admin/jobs" element={<AdminRoute><DashJobsHOC /></AdminRoute>} />
+                            <Route path='/user/add' element={<FormComponent />} />
+                            <Route path='/admin/edit/user/:id' element={<Update />} />
+                            <Route path='/admin/edit/job/:id' element={<EditJob/>} />
+                            <Route path='/job/add' element={<CreateJobs />} />
+                            <Route path='/candidats/add/:id' element={<ResumeForm />} />
                             <Route path='/recruiter/dashboard' element={<UserRoute>< UserDashboardHOC /></UserRoute>} />
                             <Route path='/job_seeker/dashboard' element={<UserRoute>< UserDashboardHOC /></UserRoute>} />
                             <Route path='/recruiter/jobs' element={<UserRoute>< UserJobsHistoryHOC /></UserRoute>} />

@@ -37,7 +37,9 @@ const validationSchema = yup.object({
     .required("Password is required"),
   PhoneNumber: yup
     .string("Enter your PhoneNumber")
-    .min(8, "PhoneNumber should be  8 characters length"),
+        .min(8, "PhoneNumber should be  8 characters length"),
+    age: yup
+        .number("Enter your age").min(0, "Age should be positive"),
 });
 
 const Register = () => {

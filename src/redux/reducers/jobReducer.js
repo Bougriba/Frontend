@@ -1,4 +1,4 @@
-import { JOB_DELETED_FAIL, JOB_DELETED_REQUEST, JOB_DELETED_RESET, JOB_DELETED_SUCCESS, JOB_LOAD_ALL_FAIL, JOB_LOAD_ALL_REQUEST, JOB_LOAD_ALL_RESET, JOB_LOAD_ALL_SUCCESS, JOB_LOAD_FAIL, JOB_LOAD_REQUEST, JOB_LOAD_RESET, JOB_LOAD_SINGLE_FAIL, JOB_LOAD_SINGLE_REQUEST, JOB_LOAD_SINGLE_RESET, JOB_LOAD_SINGLE_SUCCESS, JOB_LOAD_SUCCESS, JOB_VERIFIED_FAIL, JOB_VERIFIED_REQUEST, JOB_VERIFIED_RESET, JOB_VERIFIED_SUCCESS } from "../constants/jobConstant";
+import { JOB_CREATED_FAIL, JOB_CREATED_REQUEST, JOB_CREATED_RESET, JOB_CREATED_SUCCESS, JOB_DELETED_FAIL, JOB_DELETED_REQUEST, JOB_DELETED_RESET, JOB_DELETED_SUCCESS, JOB_LOAD_ALL_FAIL, JOB_LOAD_ALL_REQUEST, JOB_LOAD_ALL_RESET, JOB_LOAD_ALL_SUCCESS, JOB_LOAD_FAIL, JOB_LOAD_REQUEST, JOB_LOAD_RESET, JOB_LOAD_SINGLE_FAIL, JOB_LOAD_SINGLE_REQUEST, JOB_LOAD_SINGLE_RESET, JOB_LOAD_SINGLE_SUCCESS, JOB_LOAD_SUCCESS, JOB_UPDATED_FAIL, JOB_UPDATED_REQUEST, JOB_UPDATED_RESET, JOB_UPDATED_SUCCESS, JOB_VERIFIED_FAIL, JOB_VERIFIED_REQUEST, JOB_VERIFIED_RESET, JOB_VERIFIED_SUCCESS } from "../constants/jobConstant";
 
 export const loadJobReducer = (state = { jobs: [] }, action) => {
   switch (action.type) {
@@ -110,6 +110,44 @@ export const jobReducerDelete = (state = {}, action) => {
       case JOB_DELETED_FAIL:
           return { success: false, loadin: false, error: action.payload }
       case JOB_DELETED_RESET:
+          return {}
+      default:
+          return state;
+  }
+}
+
+export const jobReducerAdd = (state = {}, action) => {
+  switch (action.type) {
+      case JOB_CREATED_REQUEST:
+          return { loading: true }
+      case JOB_CREATED_SUCCESS:
+          return {
+              success:true,
+              laoding: false,
+              userAdded:action.payload ,
+          }
+      case JOB_CREATED_FAIL:
+          return { success: false, loading: false, error: action.payload }
+      case JOB_CREATED_RESET:
+          return {}
+      default:
+          return state;
+  }
+}
+
+export const JobReducerupdate = (state = {}, action) => {
+  switch (action.type) {
+      case JOB_UPDATED_REQUEST:
+          return { loading: true }
+      case JOB_UPDATED_SUCCESS:
+          return {
+              success:true,
+              laoding: false,
+              userUpdated:action.payload ,
+          }
+      case JOB_UPDATED_FAIL:
+          return { success: false, loading: false, error: action.payload }
+      case JOB_UPDATED_RESET:
           return {}
       default:
           return state;

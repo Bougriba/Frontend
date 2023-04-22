@@ -1,8 +1,17 @@
+import { SubjectRounded } from "@mui/icons-material"
 import {
     ALL_USER_LOAD_FAIL,
     ALL_USER_LOAD_REQUEST,
     ALL_USER_LOAD_RESET,
     ALL_USER_LOAD_SUCCESS,
+    EMAIL_CHECKED_FAIL,
+    EMAIL_CHECKED_REQUEST,
+    EMAIL_CHECKED_RESET,
+    EMAIL_CHECKED_SUCCESS,
+    USER_ADDED_FAIL,
+    USER_ADDED_REQUEST,
+    USER_ADDED_RESET,
+    USER_ADDED_SUCCESS,
     USER_DELETED_FAIL,
     USER_DELETED_REQUEST,
     USER_DELETED_RESET,
@@ -25,8 +34,13 @@ import {
     USER_SIGNUP_FAIL,
     USER_SIGNUP_REQUEST,
     USER_SIGNUP_RESET,
-    USER_SIGNUP_SUCCESS
+    USER_SIGNUP_SUCCESS,
+    USER_UPDATED_FAIL,
+    USER_UPDATED_REQUEST,
+    USER_UPDATED_RESET,
+    USER_UPDATED_SUCCESS
 } from "../constants/userConstant"
+import { USER_LOAD_SINGLE_FAIL, USER_LOAD_SINGLE_REQUEST, USER_LOAD_SINGLE_RESET, USER_LOAD_SINGLE_SUCCESS } from "../constants/jobConstant"
 
 
 export const userReducerSignIn = (state = {}, action) => {
@@ -136,14 +150,92 @@ export const userReducerDelete = (state = {}, action) => {
             return { loading: true }
         case USER_DELETED_SUCCESS:
             return {
+                
                 loading: false, 
                 userDeleted:action.payload,
             }
         case USER_DELETED_FAIL:
-            return { success: false, loadin: false, error: action.payload }
+            return { success: false, loading: false, error: action.payload }
         case USER_DELETED_RESET:
             return {}
         default:
             return state;
     }
 }
+
+export const userReducerAdd = (state = {}, action) => {
+    switch (action.type) {
+        case USER_ADDED_REQUEST:
+            return { loading: true }
+        case USER_ADDED_SUCCESS:
+            return {
+                success:true,
+                laoding: false,
+                userAdded:action.payload ,
+            }
+        case USER_ADDED_FAIL:
+            return { success: false, loading: false, error: action.payload }
+        case USER_ADDED_RESET:
+            return {}
+        default:
+            return state;
+    }
+}
+
+export const userReducerupdate = (state = {}, action) => {
+    switch (action.type) {
+        case USER_UPDATED_REQUEST:
+            return { loading: true }
+        case USER_UPDATED_SUCCESS:
+            return {
+                success:true,
+                laoding: false,
+                userUpdated:action.payload ,
+            }
+        case USER_UPDATED_FAIL:
+            return { success: false, loading: false, error: action.payload }
+        case USER_UPDATED_RESET:
+            return {}
+        default:
+            return state;
+    }
+}
+
+export const userChekcEmail = (state = {}, action) => {
+    switch (action.type) {
+        case EMAIL_CHECKED_REQUEST:
+            return { loading: true }
+        case EMAIL_CHECKED_SUCCESS:
+            return {
+                emailcheck: action.payload ,
+            }
+        case EMAIL_CHECKED_FAIL:
+            return { success: false, loading: false, error: action.payload }
+        case EMAIL_CHECKED_RESET:
+            return {}
+        default:
+            return state;
+    }
+}
+
+export const loadSingleUserReducer = (state = { singleuser: [] }, action) => {
+    switch (action.type) {
+      case USER_LOAD_SINGLE_REQUEST:
+        return { loading: true };
+      case USER_LOAD_SINGLE_SUCCESS:
+        return {
+          loading: false,
+          success: action.payload.sucess,
+          singleuser: action.payload.data,
+        };
+      case USER_LOAD_SINGLE_FAIL:
+        return {
+          loading: false,
+          error: action.payload,
+        };
+      case USER_LOAD_SINGLE_RESET:
+        return {};
+      default:
+        return state;
+    }
+  };

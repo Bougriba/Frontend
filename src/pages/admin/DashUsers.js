@@ -65,6 +65,11 @@ const DashUsers = () => {
       headerName: "phoneNumber",
       width: 150,
     },
+    {
+      field: "age",
+      headerName: "age",
+      width: 150,
+    },
 
     {
       field: "role",
@@ -122,7 +127,7 @@ const DashUsers = () => {
             All users
         </Typography>
         <Box sx={{ pb: 2, display: "flex", justifyContent: "right" }}>
-                  <Button variant='contained' color="success" startIcon={<AddIcon />}> Create user</Button>
+          <Button  variant="contained" color="success" startIcon={<AddIcon />}  component={Link} to={`/user/add`}>Create user</Button>
                   
         </Box>
         <Paper sx={{ bgcolor: "secondary.midNightBlue" }} >

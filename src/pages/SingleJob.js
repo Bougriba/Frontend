@@ -9,7 +9,7 @@ import {
 import { Box, Container } from "@mui/system";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Footer from "../component/Footer";
 import LoadingBox from "../component/LoadingBox";
 import Navbar from "../component/Navbar";
@@ -70,9 +70,14 @@ const SingleJob = () => {
                         : {singlejob && singlejob.location}
                       </Typography>
                       <Grid item>
-                        {singlejob.tags.map((skill) => (
-                          <Chip label={skill} style={{ marginRight: "2px" }} />
-                        ))}
+                        {singlejob &&
+                          singlejob.tags &&
+                          singlejob.tags.map((skill) => (
+                            <Chip
+                              label={skill}
+                              style={{ marginRight: "2px" }}
+                            />
+                          ))}
                       </Grid>
                       <Typography variant="body2" sx={{ pt: 2 }}>
                         {/* <h3>Job description:</h3> */}
@@ -87,7 +92,7 @@ const SingleJob = () => {
                 <>
                   <Box sx={{ flex: 1, p: 2 }}>
                     <Card sx={{ p: 2 }}>
-                      <Button sx={{ fontSize: "13px" }} variant="contained">
+                      <Button sx={{ fontSize: "13px" }} variant="contained"  component={Link} to={`/candidats/add/${id}`}>
                         Applied for this Job
                       </Button>
                     </Card>

@@ -1,5 +1,8 @@
 import { toast } from "react-toastify";
 import {
+  JOB_CREATED_FAIL,
+  JOB_CREATED_REQUEST,
+  JOB_CREATED_SUCCESS,
   JOB_DELETED_FAIL,
   JOB_DELETED_REQUEST,
   JOB_DELETED_SUCCESS,
@@ -12,6 +15,9 @@ import {
   JOB_LOAD_SINGLE_REQUEST,
   JOB_LOAD_SINGLE_SUCCESS,
   JOB_LOAD_SUCCESS,
+  JOB_UPDATED_FAIL,
+  JOB_UPDATED_REQUEST,
+  JOB_UPDATED_SUCCESS,
   JOB_VERIFIED_FAIL,
   JOB_VERIFIED_REQUEST,
   JOB_VERIFIED_SUCCESS,
@@ -108,6 +114,46 @@ export const JobDeleteAction = (id) => async(dispatch)=> {
   } catch (error) {
     dispatch({
       type: JOB_DELETED_FAIL,
+      payload: error.response.data.errorMessage
+  });
+  toast.error(error.response.data.errorMessage)
+  }
+
+}
+
+export const JobCreateAction = (job) => async(dispatch)=> {
+  dispatch({ type: JOB_CREATED_REQUEST});
+  try {
+    const { data } = await axios.post(`/api/jobs/`,job)
+    dispatch({
+      type: JOB_CREATED_SUCCESS ,
+        payload : data
+    });
+    toast.success("JOB CREATED Successfully")
+
+  } catch (error) {
+    dispatch({
+      type: JOB_CREATED_FAIL,
+      payload: error.response.data.errorMessage
+  });
+  toast.error(error.response.data.errorMessage)
+  }
+
+}
+
+export const JobUpdateAction = (id,job) => async(dispatch)=> {
+  dispatch({ type: JOB_UPDATED_REQUEST});
+  try {
+    const { data } = await axios.put(`/api/jobs/${id}`,job)
+    dispatch({
+      type: JOB_UPDATED_SUCCESS ,
+        payload : data
+    });
+    toast.success("JOB Updated Successfully")
+
+  } catch (error) {
+    dispatch({
+      type: JOB_UPDATED_FAIL,
       payload: error.response.data.errorMessage
   });
   toast.error(error.response.data.errorMessage)

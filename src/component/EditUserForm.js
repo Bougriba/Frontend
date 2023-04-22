@@ -10,7 +10,7 @@ import {
   RadioGroup,
   Select,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../component/Footer";
 import Navbar from "../component/Navbar";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
@@ -19,8 +19,12 @@ import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { userAddAction, userSignUpAction } from "../redux/actions/userAction";
-import { useNavigate } from "react-router-dom";
+import {
+  EmailCheckAction,
+  userLoadSingledAction,
+  userUpdateAction,
+} from "../redux/actions/userAction";
+import { useNavigate, useParams } from "react-router-dom";
 
 const validationSchema = yup.object({
   fullName: yup
@@ -31,45 +35,89 @@ const validationSchema = yup.object({
     .string("Enter your email")
     .email("Enter a valid email")
     .required("Email is required"),
-  password: yup
-    .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
-  PhoneNumber: yup
+  age: yup.number("Enter your age").min(0, "age should be positive"),
+  phoneNumber: yup
     .string("Enter your PhoneNumber")
     .min(8, "PhoneNumber should be  8 characters length"),
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length"),
 });
 
-const Add = () => {
+const Update = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { success,data } = useSelector((state) => state.adduser);
-    
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const { singleuser } = useSelector((state) => state.singleUser);
+  const emailChecked = useSelector((state) => state.emailcheck);
+  const { loading, error, emailExists } = emailChecked;
+
+  const [selectedRole, setSelectedRole] = useState(singleuser?.role);
+
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value);
+  };
+  const handleEmailChange = (e,formik) => {
+    formik.handleChange(e);
+    setEmailError("");
+  };
+
+  const handleEmailBlur = (formik) => {
+      formik.handleBlur("email");
+    dispatch(EmailCheckAction(formik.values.email));
+  };
+
   useEffect(() => {
-      if (success) 
-          navigate('/admin/dashboard')
-  }, [success])
+    // Set emailError to the error message if there is an error
+    setEmailError(error);
+  }, [error]);
+
+  useEffect(() => {
+    // Set emailError to "Email already exists" if emailExists is true
+    if (emailExists) {
+      setEmailError("Email already exists");
+    }
+  }, [emailExists]);
+
+  const { id } = useParams();
+  useEffect(() => {
+    dispatch(userLoadSingledAction(id));
+  }, [id]);
+
   const formik = useFormik({
     initialValues: {
       fullName: "",
       email: "",
       password: "",
       age: "",
-      PhoneNumber: "",
-      role: ""
+      phoneNumber: "",
+      role: "",
     },
     validationSchema: validationSchema,
       onSubmit: (values, actions) => {
         console.log(values)
-      //alert(JSON.stringify(values, null, 2));
-      dispatch(userAddAction(values));
+      dispatch(userUpdateAction(id, values));
       actions.resetForm();
+      //   navigate("/admin/dashboard");
     },
   });
 
+  useEffect(() => {
+    if (singleuser) {
+      formik.setValues({
+        fullName: singleuser.fullName,
+        email: singleuser.email,
+        password: "",
+        age: singleuser.age,
+        phoneNumber: singleuser.phoneNumber,
+        role: singleuser.role,
+      });
+    }
+  }, [singleuser]);
+
   return (
     <>
-      
       <Box
         sx={{
           height: "81vh",
@@ -92,7 +140,6 @@ const Add = () => {
               width: "100%",
             }}
           >
-          
             <TextField
               sx={{
                 mb: 3,
@@ -132,33 +179,17 @@ const Add = () => {
               }}
               placeholder="E-mail"
               value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-            <TextField
-              sx={{
-                mb: 3,
-                "& .MuiInputBase-root": {
-                  color: "text.secondary",
-                },
-                fieldset: { borderColor: "rgb(231, 235, 240)" },
-              }}
-              fullWidth
-              id="password"
-              name="password"
-              label="Password"
-              type="password"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="Password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
+              onChange={(e) => handleEmailChange(e, formik)}
+              onBlur={() => handleEmailBlur(formik)}
+              error={
+                (formik.touched.email &&
+                  Boolean(formik.errors.email)) ||
+                Boolean(emailError)
+              }
+              helperText={
+                (formik.touched.email && formik.errors.email) ||
+                emailError
+              }
             />
             <TextField
               sx={{
@@ -192,73 +223,70 @@ const Add = () => {
                 fieldset: { borderColor: "rgb(231, 235, 240)" },
               }}
               fullWidth
-              id="PhoneNumber"
-              name="PhoneNumber"
-              label="PhoneNumber"
+              id="password"
+              label="Password"
+              name="password"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              placeholder="Password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+            />
+            <TextField
+              sx={{
+                mb: 3,
+                "& .MuiInputBase-root": {
+                  color: "text.secondary",
+                },
+                fieldset: { borderColor: "rgb(231, 235, 240)" },
+              }}
+              fullWidth
+              id="phoneNumber"
+              name="phoneNumber"
+              label="phoneNumber"
               type="number"
               InputLabelProps={{
                 shrink: true,
               }}
-              placeholder="PhoneNumber"
-              value={formik.values.PhoneNumber}
+              placeholder="phoneNumber"
+              value={formik.values.phoneNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={
-                formik.touched.PhoneNumber && Boolean(formik.errors.PhoneNumber)
+                formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
               }
               helperText={
-                formik.touched.PhoneNumber && formik.errors.PhoneNumber
+                formik.touched.phoneNumber && formik.errors.phoneNumber
               }
             />
-            <FormControl>
-              <FormLabel id="genre">Gender</FormLabel>
-              <RadioGroup
-                row
-                aria-labelledby="genre"
-                name="genre"
-                value={formik.values.gender}
-                onChange={(e) => {
-                  formik.setFieldValue("genre", e.target.value);
-                }}
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-              </RadioGroup>
-            </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 80 }}>
-              <InputLabel id="demo-simple-select-autowidth-label">
-                Role
-              </InputLabel>
-              <Select
-                labelId="role"
-                name="role"
-                id="demo-simple-select-autowidth"
-                value={formik.values.role}
-                onChange={formik.handleChange}
-                label="Role"
-              >
-                <MenuItem value={"recruiter"}>Recruiter</MenuItem>
-                <MenuItem value={"job_seeker"}>Job_Seeker</MenuItem>
-              </Select>
-            </FormControl>
+          <FormControl sx={{ m: 1, minWidth: 80 }}>
+        <InputLabel id="demo-simple-select-autowidth-label">
+          Role
+        </InputLabel>
+        <Select
+          labelId="role"
+          name="role"
+          id="demo-simple-select-autowidth"
+          value={selectedRole || ""}
+          onChange={handleRoleChange}
+          label="Role"
+        >
+          <MenuItem value={"recruiter"}>Recruiter</MenuItem>
+          <MenuItem value={"job_seeker"}>Job_Seeker</MenuItem>
+        </Select>
+      </FormControl>
 
             <Button fullWidth variant="contained" type="submit">
-              ADD
+              edit
             </Button>
           </Box>
         </Box>
       </Box>
-      
     </>
   );
 };
-
-export default Add;
+export default Update;
