@@ -17,49 +17,79 @@ import {
   userDeleteAction,
 } from "../../redux/actions/userAction";
 import { useState } from "react";
+import {
+  allCandidatsaction,
+  candidatDeleteAction,
+} from "../../redux/actions/CandidatsAction";
 
-const DashUsers = () => {
-  // const pageSize = 3;
-  const [pageSize, setPageSize] = useState(5);
+const Candidats = () => {
+  const [pageSize, setPageSize] = useState(1);
 
   const [pageNumber, setPageNumber] = useState(1);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(allUserAction(pageNumber, pageSize));
+    dispatch(allCandidatsaction(pageNumber, pageSize));
   }, [pageNumber, pageSize]);
 
-  const { data, totalPages, loading } = useSelector(
-    (state) => state.allusers.users
-  );
-
+  const { candidats } = useSelector((state) => state.allcandidats);
+  const totalPages = candidats?.totalPages;
   const [data1, setData1] = useState([]);
-  useEffect(() => {
-    setData1(data !== undefined && data.length > 0 ? data : []);
-  }, [data]);
-  console.log(data1);
-  const deleteUserById = (e, id) => {
-    dispatch(userDeleteAction(id));
-    dispatch(allUserAction());
+
+console.log(candidats)
+
+  const deleteUserById = (e, idUser, idJob) => {
+    dispatch(candidatDeleteAction(idUser, idJob));
+    dispatch(allCandidatsaction());
   };
+
+  useEffect(() => {
+    if (candidats?.data) {
+      const formattedData = candidats.data.map((candidat) => {
+        return {
+          idUser: candidat.idUser,
+          idJob: candidat.idJob,
+          email: candidat.User.email,
+          fullName: candidat.User.fullName,
+          Score: candidat.Score,
+          phoneNumber: candidat.User.phoneNumber,
+          interviewDate: candidat.interviewDate,
+          applicationStatus: candidat.applicationStatus,
+          title: candidat.job_offer.title,
+          location: candidat.job_offer.location,
+          createdAt: candidat.createdAt,
+        };
+      });
+
+     
+
+      setData1(formattedData);
+    } else {
+      setData1([]);
+    }
+  }, [candidats?.data]);
 
   const columns = [
     {
-      field: "id",
+      field: "idUser",
       headerName: "User ID",
-      width: 150,
+      width: 80,
       editable: true,
     },
-
+    {
+      field: "idJob",
+      headerName: "Job ID",
+      width: 80,
+    },
     {
       field: "email",
-      headerName: "E_mail",
-      width: 150,
+      headerName: "email",
+      width: 100,
+      editable: true,
     },
-
     {
       field: "fullName",
       headerName: "fullName",
-      width: 150,
+      width: 100,
     },
     {
       field: "phoneNumber",
@@ -67,18 +97,35 @@ const DashUsers = () => {
       width: 150,
     },
     {
-      field: "age",
-      headerName: "age",
+      field: "Score",
+      headerName: "CV Score",
       width: 150,
     },
-
     {
-      field: "role",
-      headerName: "User status",
+      field: "title",
+      headerName: "Title",
       width: 150,
-      // renderCell: (params) => (
-      //     params.row.role === "admin" ? "admin" : "Regular user"
-      // )
+    },
+    {
+      field: "location",
+      headerName: "Location",
+      width: 150,
+    },
+    {
+      filed: "interviewDate",
+      headerName: "interviewDate",
+      width: 150,
+      renderCell: (params) => {
+        if (params.row.interviewDate) {
+          return moment(params.row.interviewDate).format("YYYY-MM-DD HH:MM:SS");
+        }
+        return "Processing";
+      },
+    },
+    {
+      field: "applicationStatus",
+      headerName: "applicationStatus",
+      width: 100,
     },
 
     {
@@ -91,7 +138,7 @@ const DashUsers = () => {
 
     {
       field: "Actions",
-      width: 300,
+      width: 200,
       renderCell: (values) => (
         <Box
           sx={{
@@ -103,13 +150,15 @@ const DashUsers = () => {
           <Button variant="contained">
             <Link
               style={{ color: "white", textDecoration: "none" }}
-              to={`/admin/edit/user/${values.row.id}`}
+              to={`/admin/edit/candidat/${values.row.idUser}/${values.row.idJob}`}
             >
               Edit
             </Link>
           </Button>
           <Button
-            onClick={(e) => deleteUserById(e, values.row.id)}
+            onClick={(e) =>
+              deleteUserById(e, values.row.idUser, values.row.idJob)
+            }
             variant="contained"
             color="error"
           >
@@ -124,18 +173,10 @@ const DashUsers = () => {
     <>
       <Box>
         <Typography variant="h4" sx={{ color: "white", pb: 3 }}>
-          All users
+          All Candidats
         </Typography>
         <Box sx={{ pb: 2, display: "flex", justifyContent: "right" }}>
-          <Button
-            variant="contained"
-            color="success"
-            startIcon={<AddIcon />}
-            component={Link}
-            to={`/user/add`}
-          >
-            Create user
-          </Button>
+          
         </Box>
         <Paper sx={{ bgcolor: "secondary.midNightBlue" }}>
           <Box sx={{ height: 400, width: "100%" }}>
@@ -154,7 +195,7 @@ const DashUsers = () => {
                   color: "#ffffff",
                 },
               }}
-              getRowId={(row) => row.id}
+              getRowId={(row) => `${row.idUser}-${row.idJob}`}
               rows={data1}
               columns={columns}
               pageSize={3}
@@ -176,4 +217,4 @@ const DashUsers = () => {
   );
 };
 
-export default DashUsers;
+export default Candidats;

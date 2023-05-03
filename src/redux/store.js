@@ -2,8 +2,9 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { JobReducerVerified, JobReducerupdate, jobReducerAdd, jobReducerDelete, loadJobReducer, loadSingleJobReducer, loadallJobReducer } from "./reducers/jobReducer";
-import { allUserReducer, loadSingleUserReducer, userChekcEmail, userReducerAdd, userReducerDelete, userReducerLogout, userReducerSignIn, userReducerSignUp, userReducerupdate } from "./reducers/UserReducer";
+import { allUserReducer, loadSingleUserPDFReducer, loadSingleUserReducer, userChekcEmail, userReducerAdd, userReducerDelete, userReducerLogout, userReducerSignIn, userReducerSignUp, userReducerupdate } from "./reducers/UserReducer";
 import { RecruiterJob, RecruiterProfile } from "./reducers/recruiterReducer";
+import { CandidatReducerAdd, allcandidatsReducer, alljobseekercandidatsReducer, allrecruitercandidatsReducer, candidatReducerDelete, loadSingleCandidatReducer } from "./reducers/CandidatsReducer";
 
 //combine reducers
 const reducer = combineReducers({
@@ -24,7 +25,14 @@ const reducer = combineReducers({
   emailcheck: userChekcEmail,
   singleUser: loadSingleUserReducer,
   addjob: jobReducerAdd,
-  updatejob:JobReducerupdate,
+  updatejob: JobReducerupdate,
+  addcandidat: CandidatReducerAdd,
+  allcandidats: allcandidatsReducer,
+  deletecandidats: candidatReducerDelete,
+  singleCandidat: loadSingleCandidatReducer,
+  allrecruitercandidats: allrecruitercandidatsReducer,
+  singleUserpdf: loadSingleUserPDFReducer,
+  alljobseekercandidats:alljobseekercandidatsReducer,
 });
 
 //initial state

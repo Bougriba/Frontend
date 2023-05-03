@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userLogoutAction } from '../../redux/actions/userAction';
 import { useNavigate } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
+import HomeIcon from '@mui/icons-material/Home';
 import { RecruiterProfileAction, userProfileAction } from '../../redux/actions/RecruiterAction';
 
 
@@ -29,14 +30,16 @@ const SidebarAdm = () => {
     }, []);
     useEffect(() => {
         dispatch(userProfileAction());
-      }, []);
+    }, []);
+    
+    
 
     //log out 
     const logOut = () => {
         dispatch(userLogoutAction());
         window.location.reload(true);
         setTimeout(() => {
-            navigate('/');
+            navigate("/");
         }, 500)
     }
 
@@ -91,20 +94,22 @@ const SidebarAdm = () => {
                                         <MenuItem component={<Link to="/admin/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
                                         <MenuItem component={<Link to="/admin/users" />} icon={<GroupAddIcon />}> Users </MenuItem>
                                         <MenuItem component={<Link to="/admin/jobs" />} icon={<WorkIcon />}> Jobs </MenuItem>
-                                        <MenuItem component={<Link to="/admin/category" />} icon={<CategoryIcon />}> Candidats </MenuItem>
+                                        <MenuItem component={<Link to="/admin/candidats" />} icon={<CategoryIcon />}> Candidats </MenuItem>
+                                        <MenuItem component={<Link to="/" />} icon={<HomeIcon />}> Home </MenuItem>
                                     </>
                                       : userInfo && userInfo.role === "job_seeker" ?
                                     <>
                                         <MenuItem component={<Link to="/job_seeker/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
-                                        <MenuItem component={<Link to="/user/jobs" />} icon={<WorkHistoryIcon />}> candidats </MenuItem>
-                                        <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
+                                        <MenuItem component={<Link to="/job_seeker/candidats" />} icon={<WorkHistoryIcon />}> candidats </MenuItem>
+                                            <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
+                                            <MenuItem component={<Link to="/" />} icon={<HomeIcon />}> Home </MenuItem>
                                         </>
                                         : userInfo && userInfo.role === "recruiter" ?
                                         <>
                                         <MenuItem component={<Link to="/recruiter/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
                                                 <MenuItem component={<Link to="/recruiter/jobs" />} icon={<WorkIcon />}> Jobs </MenuItem>
-                                                <MenuItem component={<Link to="/recruiter/candidats" />} icon={<CategoryIcon />}> Candidats </MenuItem>
-                                        <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
+                                                <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
+                                                <MenuItem component={<Link to="/" />} icon={<HomeIcon />}> Home </MenuItem>
                                             </>
                                             : null
 
@@ -136,7 +141,7 @@ const SidebarAdm = () => {
                                 },
                             }}
                         >
-                            <MenuItem onClick={logOut} icon={<LoginIcon />}>   Log out </MenuItem>
+                            <MenuItem  onClick={logOut} icon={<LoginIcon />}>   Log out </MenuItem>
                         </Menu>
                     </Box>
                 </Box>

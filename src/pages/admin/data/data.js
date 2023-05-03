@@ -1,9 +1,6 @@
 export const data = [
-    ["Year", "Jobs", "users", "candidats"],
-    ["2014", 1000, 400, 200],
-    ["2015", 1170, 460, 250],
-    ["2016", 660, 1120, 300],
-    ["2023", 1030, 540, 350],
+    ["Year","Jobs","users","Job_seeker","Recruiter","candidats"],
+    ["2023",5,15,10,5,50],
 ];
 
 export const options = {

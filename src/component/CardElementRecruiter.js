@@ -51,7 +51,7 @@ const CardElementRecruiter = ({ jobTitle, description, tag, location, company,id
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button disableElevation variant='contained' size="small" startIcon={<AddIcon />}><Link style={{ textDecoration: "none", color: "white", boxShadow: 0 }} to={`/job/${id}`}>View Candidats</Link></Button>
+                <Button disableElevation variant='contained' size="small" startIcon={<AddIcon />}><Link style={{ textDecoration: "none", color: "white", boxShadow: 0 }} to={`/recruiter/candidats/job_id/${id}`}>View Candidats</Link></Button>
             </CardActions>
             <Box sx={{ display: "flex", justifyContent: "space-between", width: "170px" }}>
                     <Button variant="contained"><Link style={{ color: "white", textDecoration: "none" }} to={`/admin/edit/job/${id}`}>Edit</Link></ Button>

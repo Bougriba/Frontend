@@ -16,6 +16,14 @@ import {
     USER_DELETED_REQUEST,
     USER_DELETED_RESET,
     USER_DELETED_SUCCESS,
+    USER_LOAD_PDF_SINGLE_FAIL,
+    USER_LOAD_PDF_SINGLE_REQUEST,
+    USER_LOAD_PDF_SINGLE_RESET,
+    USER_LOAD_PDF_SINGLE_SUCCESS,
+    USER_LOAD_SINGLE_FAIL,
+    USER_LOAD_SINGLE_REQUEST,
+    USER_LOAD_SINGLE_RESET,
+    USER_LOAD_SINGLE_SUCCESS,
     USER_LOGOUT_FAIL,
     USER_LOGOUT_REQUEST,
     USER_LOGOUT_RESET,
@@ -40,7 +48,6 @@ import {
     USER_UPDATED_RESET,
     USER_UPDATED_SUCCESS
 } from "../constants/userConstant"
-import { USER_LOAD_SINGLE_FAIL, USER_LOAD_SINGLE_REQUEST, USER_LOAD_SINGLE_RESET, USER_LOAD_SINGLE_SUCCESS } from "../constants/jobConstant"
 
 
 export const userReducerSignIn = (state = {}, action) => {
@@ -234,6 +241,27 @@ export const loadSingleUserReducer = (state = { singleuser: [] }, action) => {
           error: action.payload,
         };
       case USER_LOAD_SINGLE_RESET:
+        return {};
+      default:
+        return state;
+    }
+};
+export const loadSingleUserPDFReducer = (state = { singleuser: [] }, action) => {
+    switch (action.type) {
+      case USER_LOAD_PDF_SINGLE_REQUEST:
+        return { loading: true };
+      case USER_LOAD_PDF_SINGLE_SUCCESS:
+        return {
+          loading: false,
+          success: action.payload.sucess,
+          singleuser: action.payload.data,
+        };
+      case USER_LOAD_PDF_SINGLE_FAIL:
+        return {
+          loading: false,
+          error: action.payload,
+        };
+      case USER_LOAD_PDF_SINGLE_RESET:
         return {};
       default:
         return state;

@@ -31,22 +31,7 @@ const LogIn = () => {
     const { userInfo,isAuthenticated } = useSelector(state => state.signIn);
     useEffect(() => {
         if (isAuthenticated) {
-            if (userInfo.role == 'recruiter')
-            {
-            navigate('/recruiter/dashboard')
-            }
-            else
-            {
-                if (userInfo.role == 'job_seeker')
-                {
-                    navigate('/job_seeker/dashboard')
-                }
-                else
-                {
-                    navigate('/admin/dashboard')
-                }
-            }
-
+            navigate('/')
             
         }
     }, [isAuthenticated])

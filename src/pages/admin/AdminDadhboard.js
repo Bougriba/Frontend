@@ -27,19 +27,31 @@ const AdminDashboard = () => {
                 >
 
                     <StatComponent
-                        value="45621"
+                        value="15"
                         icon={<SupervisorAccountIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
                         description="users"
                         money=''
                     />
+                     <StatComponent
+                        value="10"
+                        icon={<SupervisorAccountIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
+                        description="Job_seeker"
+                        money=''
+                    />
+                        <StatComponent
+                        value="5"
+                        icon={<SupervisorAccountIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
+                        description="Recruiter"
+                        money=''
+                    />
                     <StatComponent
-                        value="450"
+                        value="5"
                         icon={<WorkIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
                         description="Jobs"
                         money=''
                     />
                     <StatComponent
-                        value="6548"
+                        value="50"
                         icon={<CategoryIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
                         description="candidats"
                         money=''

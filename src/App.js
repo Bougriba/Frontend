@@ -26,6 +26,12 @@ import { useState } from 'react';
 import CreateJobs from './component/CreateJobForm';
 import EditJob from './component/EditJobForm';
 import ResumeForm from './component/CreateCandidats';
+import Candidats from './pages/admin/DashCandidats';
+import UpdateCandidat from './component/EditCandidatForm';
+import RecruiterCandidats from './pages/user/CandidatsperJob';
+import PDFViewer from './component/Resume';
+import ComplexGrid from './pages/user/CandidatsJobseeker';
+import jobseekerdashboard from './pages/user/Job_seekerDashboard';
 //HOC
 const UserDashboardHOC = Layout(UserDashboard);
 const UserJobsHistoryHOC=Layout(UserJobsHistory)
@@ -33,9 +39,14 @@ const UserInfoDashboardHOC = Layout(UserInfoDashboard)
 const AdminDadhboardHOC = Layout(AdminDadhboard)
 const DashUsersHOC = Layout(DashUsers)
 const DashJobsHOC = Layout(DashJobs)
-
-
-
+const CandidatsHOC = Layout(Candidats)
+const UpdateHOC=Layout(Update)
+const CreateJobsHOC=Layout(CreateJobs)
+const EditJobHOC = Layout(EditJob)
+const EditCandidatHOC = Layout(UpdateCandidat)
+const RecruiterCandidatsHOC = Layout(RecruiterCandidats)
+const ComplexGridHOC = Layout(ComplexGrid)
+const JobseekerdashboardHOC=Layout(jobseekerdashboard)
 const App = () => {
   
     return (
@@ -56,13 +67,19 @@ const App = () => {
                             <Route path="/admin/dashboard" element={<AdminRoute><AdminDadhboardHOC /></AdminRoute>} />
                             <Route path="/admin/users" element={<AdminRoute><DashUsersHOC /></AdminRoute>} />
                             <Route path="/admin/jobs" element={<AdminRoute><DashJobsHOC /></AdminRoute>} />
+                            <Route path="/admin/candidats" element={<AdminRoute><CandidatsHOC /></AdminRoute>} />
+                            <Route path="/recruiter/candidats/job_id/:idJob" element={<RecruiterCandidatsHOC />} />
+                            <Route path="/admin/edit/candidat/:idUser/:idJob" element={<AdminRoute><EditCandidatHOC /></AdminRoute>} />
+                            <Route path="/recruiter/edit/candidat/:idUser/:idJob" element={<EditCandidatHOC/>} />
                             <Route path='/user/add' element={<FormComponent />} />
-                            <Route path='/admin/edit/user/:id' element={<Update />} />
-                            <Route path='/admin/edit/job/:id' element={<EditJob/>} />
-                            <Route path='/job/add' element={<CreateJobs />} />
+                            <Route path='/admin/edit/user/:id' element={<UpdateHOC />} />
+                            <Route path='/admin/edit/job/:id' element={<EditJobHOC/>} />
+                            <Route path='/job/add' element={<CreateJobsHOC />} />
                             <Route path='/candidats/add/:id' element={<ResumeForm />} />
                             <Route path='/recruiter/dashboard' element={<UserRoute>< UserDashboardHOC /></UserRoute>} />
-                            <Route path='/job_seeker/dashboard' element={<UserRoute>< UserDashboardHOC /></UserRoute>} />
+                            <Route path='/recruiter/candidat/pdf/:idUser' element={<UserRoute><PDFViewer /></UserRoute>} />
+                            <Route path='/job_seeker/dashboard' element={<UserRoute>< JobseekerdashboardHOC /></UserRoute>} />
+                            <Route path='/job_seeker/candidats' element={<UserRoute><ComplexGridHOC /></UserRoute>} />
                             <Route path='/recruiter/jobs' element={<UserRoute>< UserJobsHistoryHOC /></UserRoute>} />
                             <Route path='/user/info' element={<UserRoute>< UserInfoDashboardHOC/></UserRoute>} />
                             <Route path='*' element={<NotFound />} />

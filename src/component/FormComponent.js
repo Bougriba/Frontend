@@ -35,9 +35,9 @@ const validationSchema = yup.object({
     .string("Enter your password")
     .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required"),
-  PhoneNumber: yup
-    .string("Enter your PhoneNumber")
-    .min(8, "PhoneNumber should be  8 characters length"),
+  phoneNumber: yup
+    .string("Enter your phoneNumber")
+    .min(8, "phoneNumber should be  8 characters length"),
 });
 
 const Add = () => {
@@ -55,7 +55,7 @@ const Add = () => {
       email: "",
       password: "",
       age: "",
-      PhoneNumber: "",
+      phoneNumber: "",
       role: ""
     },
     validationSchema: validationSchema,
@@ -192,22 +192,22 @@ const Add = () => {
                 fieldset: { borderColor: "rgb(231, 235, 240)" },
               }}
               fullWidth
-              id="PhoneNumber"
-              name="PhoneNumber"
-              label="PhoneNumber"
+              id="phoneNumber"
+              name="phoneNumber"
+              label="phoneNumber"
               type="number"
               InputLabelProps={{
                 shrink: true,
               }}
-              placeholder="PhoneNumber"
-              value={formik.values.PhoneNumber}
+              placeholder="phoneNumber"
+              value={formik.values.phoneNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={
-                formik.touched.PhoneNumber && Boolean(formik.errors.PhoneNumber)
+                formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
               }
               helperText={
-                formik.touched.PhoneNumber && formik.errors.PhoneNumber
+                formik.touched.phoneNumber && formik.errors.phoneNumber
               }
             />
             <FormControl>
